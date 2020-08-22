@@ -4,6 +4,7 @@ import com.atguigu.springcloud.entities.CommonResult;
 import com.atguigu.springcloud.entities.Payment;
 import com.atguigu.springcloud.service.PaymentService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.web.bind.annotation.*;
@@ -34,6 +35,13 @@ public class PaymentController {
         return paymentService.getPaymentById (id);
     }
 
+    @Value ("${server.port}")
+    private String port;
+    @GetMapping("/payment/lb")
+    public String getPort(){
+        return port;
+    }
+
     @GetMapping("/payment/discovery")
     public Object discovery(){
         List<String> services = discoveryClient.getServices ();
@@ -57,5 +65,11 @@ public class PaymentController {
             e.printStackTrace ();
         }
         return "8001";
+    }
+
+    @GetMapping("/payment/zipkin")
+    public String paymentZipkin()
+    {
+        return "hi ,i'am paymentzipkin server fall back，welcome to atguigu，O(∩_∩)O哈哈~";
     }
 }

@@ -31,6 +31,13 @@ public class PaymentController {
         return paymentService.getPaymentById (id);
     }
 
+    @Value ("${server.port}")
+    private String port;
+    @GetMapping("/payment/lb")
+    public String getPort(){
+        return port;
+    }
+
     @GetMapping("/payment/discovery")
     public Object discovery(){
 
